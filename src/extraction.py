@@ -2,6 +2,7 @@
 import re
 from src.contrat import Evenement
 
+_MOTIF_BEARER = re.compile(r"(?i)(\bAuthorization\s*:\s*Bearer\s+)\S+")
 _MOTIF_CLE = re.compile(
     r"(?i)\b(password|passwd|pwd|token|api[_-]?key|secret)\b(\s*[=:]\s*)\S+"
 )
@@ -9,7 +10,9 @@ _MOTIF_CLE = re.compile(
 
 def masquer_secrets(texte):
     """Remplace les valeurs de secrets par [SECRET]."""
-    return _MOTIF_CLE.sub(r"\1\2[SECRET]", texte)
+    texte = _MOTIF_CLE.sub(r"\1\2[SECRET]", texte)
+    texte = _MOTIF_BEARER.sub(r"\1[SECRET]", texte)
+    return texte
 
 
 def normaliser(brut):
