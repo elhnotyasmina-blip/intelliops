@@ -18,7 +18,7 @@ def classifier(evenements):
     """Retourne la liste des categories detectees (ou ['normal'])."""
     categories = []
     erreurs = Counter(e.message for e in evenements if e.severite == "erreur")
-    if any(n >= 3 for n in erreurs.values()):
+    if any(n > 100 for n in erreurs.values()):
         categories.append("boucle_erreurs")
     if any(e.severite == "critique" for e in evenements):
         categories.append("critique")
