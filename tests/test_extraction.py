@@ -23,6 +23,13 @@ class TestExtraction(unittest.TestCase):
         evts = [normaliser(b), normaliser(b), normaliser({**b, "horodatage": "T2"})]
         self.assertEqual(len(dedoublonner(evts)), 2)
 
+    def test_bearer(self):
+        self.assertEqual(
+            masquer_secrets("Authorization: Bearer eyJ.abc-1"),
+            "Authorization: Bearer [SECRET]",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
+
